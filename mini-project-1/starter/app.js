@@ -7,6 +7,7 @@ const clearButton = document.querySelector('#clear-todos');
 
 todoForm.addEventListener('submit', addTodo);
 todoList.addEventListener('click', deleteTodo);
+clearButton.addEventListener('click', clearTodos);
 
 function addTodo(e) {
     e.preventDefault();
@@ -53,5 +54,11 @@ function deleteTodo(e) {
             const todoItem = e.target.parentElement;
             todoItem.remove();
         }
+    }
+}
+
+function clearTodos() {
+    if (confirm('Apakah anda yakin ingin menghapus semua data sekaligus ?')) {
+        todoList.innerHTML = '';
     }
 }
