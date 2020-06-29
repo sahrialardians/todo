@@ -35,14 +35,19 @@ function addTodo(e) {
 
     // memasukkan element li yang telah dibuat js ke dalam element todo-list
     todoList.appendChild(li);
+
+    // membuat reassigment nilai input jadi string kosong
+    todoInput.value = '';
 }
 
 function deleteTodo(e) {
     e.preventDefault();
 
     if (e.target.classList.contains('delete-todo')) {
-        const todoItem = e.target.parentElement;
-
-        todoItem.remove();
+        // membuat confirm delete item
+        if (confirm('Apakah anda yakin menghapus data ini ?')) {
+            const todoItem = e.target.parentElement;
+            todoItem.remove();
+        }
     }
 }
