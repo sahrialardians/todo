@@ -117,8 +117,27 @@ function deleteTodo(e) {
         if (confirm('Apakah anda yakin menghapus data ini ?')) {
             const todoItem = e.target.parentElement;
             todoItem.remove();
+            // memanggil function untuk menghapus todo dari localStorage
+            deleteTodoFromLocalStorage(todoItem);
         }
     }
+}
+
+function deleteTodoFromLocalStorage(deletedElement){
+    // mengambil nilai todos dari local storage
+    const todos = getItemsFromLocalStorage();
+
+    // mencari index todo yang mau dihapus
+    todos.forEach((todo, index) => {
+        // cek item todo yg mau dihapus
+        if (deletedElement.firstChild.textContent === todo) {
+            // kalo ada, hapus berdasarkan indexnya 1 nilai
+            todos.splice(index, 1);
+        }
+    })
+
+    // set ulang item local storagenya
+    localStorage.setItem('todos', JSON.stringify(todos));
 }
 
 function clearTodos() {
