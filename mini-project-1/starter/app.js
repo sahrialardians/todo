@@ -8,6 +8,7 @@ const clearButton = document.querySelector('#clear-todos');
 todoForm.addEventListener('submit', addTodo);
 todoList.addEventListener('click', deleteTodo);
 clearButton.addEventListener('click', clearTodos);
+filterInput.addEventListener('keyup', filterTodos);
 
 function addTodo(e) {
     e.preventDefault();
@@ -17,7 +18,7 @@ function addTodo(e) {
         const li = document.createElement('li');
 
         // menambahkan properti class pada element li
-        li.className = 'list-group-item d-flex justify-content-between align-items-center mb-1';
+        li.className = 'todo-item list-group-item d-flex justify-content-between align-items-center mb-1';
 
         // menambahkan childern kedalam element li
         li.appendChild(document.createTextNode(todoInput.value));
@@ -61,4 +62,25 @@ function clearTodos() {
     if (confirm('Apakah anda yakin ingin menghapus semua data sekaligus ?')) {
         todoList.innerHTML = '';
     }
+}
+
+function filterTodos(e) {
+    const filterText = e.target.value.toLowerCase();
+    const todoItems = document.querySelectorAll('.todo-item');
+
+    todoItems.forEach((item) => {
+        // mengambil text dari masing-masing item todo
+        const itemText = item.firstChild.textContent.toLowerCase();
+
+        // 
+        if (itemText.indexOf(filterText) !== -1) {
+            // muncul ketika item ada salah satu huruf yg dicari
+            item.setAttribute('style', 'display: block;');
+        } else {
+            // selainnya akan tidak menampilkan text yang dicari
+            item.setAttribute('style', 'display:none !important;')
+        }
+    });
+
+    // console.log(filterText);
 }
