@@ -5,14 +5,68 @@ const filterInput = document.querySelector('#filter-input');
 const todoList = document.querySelector('#todo-list');
 const clearButton = document.querySelector('#clear-todos');
 
-// kumpulan semua event listener
+immediateLoadEventListener();
 
-todoForm.addEventListener('submit', addTodo);
-todoList.addEventListener('click', deleteTodo);
-clearButton.addEventListener('click', clearTodos);
-filterInput.addEventListener('keyup', filterTodos);
+// kumpulan event listener
+function immediateLoadEventListener() {
+    // mengambil data dari localStorage dan render ke browser
+    document.addEventListener('DOMContentLoaded', getTodos);
+
+    // event untuk menambahkan todo
+    todoForm.addEventListener('submit', addTodo);
+
+    // event untuk menghapus 1 todo
+    todoList.addEventListener('click', deleteTodo);
+
+    // event untuk mengapus semua todos
+    clearButton.addEventListener('click', clearTodos);
+
+    // event untuk mencari todo
+    filterInput.addEventListener('keyup', filterTodos);
+}
 
 // DOM function
+
+function getTodos() {
+    let todos;
+
+    // mengecek kondisi local storage apakah gadak?
+    if (localStorage.getItem('todos') == null) {
+        // jika key nya kosong, reassigment variabel todos jadi array kosong
+        todos = [];
+    } else {
+        // jika ada akan memasukkan value ke dalam variable todos atau reassigment lagi
+        todos = JSON.parse(localStorage.getItem('todos'));
+    }
+
+    // mengambil data todo dari localStorage
+    todos.forEach((todo) => {
+        // Membuat li element
+        const li = document.createElement('li');
+
+        // menambahkan properti class pada element li
+        li.className = 'todo-item list-group-item d-flex justify-content-between align-items-center mb-1';
+
+        // menambahkan childern kedalam element li
+        li.appendChild(document.createTextNode(todo));
+
+        // membuat delete button
+        const a = document.createElement('a');
+
+        // memberi properti untuk a element
+        a.href = '#';
+        a.className = 'badge badge-danger delete-todo'
+
+        // memasukkan textnya ke child dengan cara ke 2
+        a.innerHTML = 'Delete';
+
+        // insert element a ke dalam childern li
+        li.appendChild(a);
+
+        // memasukkan element li yang telah dibuat js ke dalam element todo-list
+        todoList.appendChild(li);
+    });
+}
 
 function addTodo(e) {
     e.preventDefault();
