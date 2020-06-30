@@ -5,10 +5,14 @@ const filterInput = document.querySelector('#filter-input');
 const todoList = document.querySelector('#todo-list');
 const clearButton = document.querySelector('#clear-todos');
 
+// kumpulan semua event listener
+
 todoForm.addEventListener('submit', addTodo);
 todoList.addEventListener('click', deleteTodo);
 clearButton.addEventListener('click', clearTodos);
 filterInput.addEventListener('keyup', filterTodos);
+
+// DOM function
 
 function addTodo(e) {
     e.preventDefault();
@@ -39,11 +43,33 @@ function addTodo(e) {
         // memasukkan element li yang telah dibuat js ke dalam element todo-list
         todoList.appendChild(li);
 
+        // menambahkan todo ke dalam localStorage
+        addTodoLocalStorage(todoInput.value);
+
         // membuat reassigment nilai input jadi string kosong
         todoInput.value = '';
     } else {
         alert("Field masih kosong, silahkan masukkan Todo!");
     }
+}
+
+function addTodoLocalStorage(todoInputValue){
+    let todos;
+
+    // mengecek kondisi local storage apakah gadak?
+    if (localStorage.getItem('todos') == null) {
+        // jika key nya kosong, reassigment variabel todos jadi array kosong
+        todos = [];
+    } else {
+        // jika ada akan memasukkan value ke dalam variable todos atau reassigment lagi
+        todos = JSON.parse(localStorage.getItem('todos'));
+    }
+
+    // mengpush value dari input todo ke dalam variable todos
+    todos.push(todoInputValue);
+
+    // memasukkan value dari input ke dalam local storage dan buat value harus sebuah string dengan menggukan json.stringify
+    localStorage.setItem('todos', JSON.stringify(todos));
 }
 
 function deleteTodo(e) {
