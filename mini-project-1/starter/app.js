@@ -143,7 +143,14 @@ function deleteTodoFromLocalStorage(deletedElement){
 function clearTodos() {
     if (confirm('Apakah anda yakin ingin menghapus semua data sekaligus ?')) {
         todoList.innerHTML = '';
+
+        // memanggil function hapus data dari local storage
+        clearTodosFormLocalStorage();
     }
+}
+
+function clearTodosFormLocalStorage() {
+    localStorage.clear();
 }
 
 function filterTodos(e) {
